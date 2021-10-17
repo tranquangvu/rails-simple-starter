@@ -1,0 +1,32 @@
+{
+  "name": "go-on-rails",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@hotwired/stimulus": "^3.0.1",
+    "@hotwired/stimulus-webpack-helpers": "^1.0.1",
+    "@rails/actioncable": "^6.1.6",
+    "@rails/activestorage": "^6.1.6",
+    "@rails/ujs": "^6.1.6",
+    "@rails/webpacker": "5.4.3",
+    "@tabler/core": "^1.0.0-beta9",
+    "turbolinks": "^5.2.0",
+    "webpack": "^4.46.0",
+    "webpack-cli": "^3.3.12"
+  },
+  "scripts": {
+    "lint": "yarn run eslint app/javascript",
+    "lint:fix": "yarn run eslint app/javascript --fix"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.3.2",
+    "webpack-dev-server": "^3"
+  }
+}

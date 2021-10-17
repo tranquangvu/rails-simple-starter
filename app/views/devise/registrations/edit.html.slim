@@ -1,0 +1,29 @@
+#devise-registrations-edit-container.devise-form-container.d-flex.align-items-center.justify-content-center.flex-column
+  = link_to root_path, class: 'mx-auto mb-4'
+    = image_pack_tag 'tabler.svg', class: 'logo'
+  .card.mx-auto
+    .card-body
+      h1.text-center.my-4
+        | Update Account
+      = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+        = f.error_notification
+        .form-inputs
+          = f.input :email,
+            required: true,
+            autofocus: true,
+            wrapper_html: { class: 'mb-3' }
+          - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+            p
+              | Currently waiting confirmation for: #{resource.unconfirmed_email}
+          = f.input :password,
+            hint: "leave it blank if you don't want to change it",
+            required: false,
+            wrapper_html: { class: 'mb-3' }
+          = f.input :password_confirmation,
+            required: false,
+            wrapper_html: { class: 'mb-3' }
+          = f.input :current_password,
+            required: true,
+            wrapper_html: { class: 'mb-3' }
+        .form-actions
+          = f.button :submit, "Update", class: 'btn btn-primary'

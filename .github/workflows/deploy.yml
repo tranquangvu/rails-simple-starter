@@ -1,0 +1,41 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  deploy_staging:
+    name: Deploy staging
+    environment: staging
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/develop' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy to heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          procfile: |
+            release: bundle exec rake db:migrate
+
+  deploy_production:
+    name: Deploy production
+    environment: production
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Your custom script to deploy to production
+        run: |
+          echo 'Deploying to production'
+          echo '...'
+          echo 'Done!'

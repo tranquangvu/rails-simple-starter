@@ -1,0 +1,26 @@
+#pages-home-container {
+  .intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: $dark;
+
+    &__title {
+      color: $white;
+      font-size: 3rem;
+      text-align: center;
+    }
+
+    &__description {
+      color: $grey;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    &__actions {
+      margin: 16px 0;
+    }
+  }
+}

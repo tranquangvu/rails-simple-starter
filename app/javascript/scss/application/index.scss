@@ -1,0 +1,11 @@
+@import '@/fonts/poppins';
+@import './variables';
+@import './theme';
+
+// components
+@import './components/flash';
+@import './components/form';
+
+// views
+@import './views/home';
+@import './views/devise';

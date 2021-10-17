@@ -1,0 +1,15 @@
+#pages-home-container data-controller='home'
+  .intro
+    h1.intro__title
+      | Rails Simple Starter
+    p.intro__description
+      | ((: Eat - Sleep - Code :))
+    .intro__actions
+      - if user_signed_in?
+        => link_to 'Profile', edit_user_registration_path, class: 'btn btn-default'
+        - if policy(:access).admin?
+          => link_to 'Admin Dashboard', admin_root_path, class: 'btn btn-info'
+        => link_to 'Logout', destroy_user_session_path, method: :delete, class: 'btn btn-warning'
+      - else
+        => link_to 'Login', new_user_session_path, class: 'btn btn-default'
+        => link_to 'Create New Account', new_user_registration_path, class: 'btn btn-primary'

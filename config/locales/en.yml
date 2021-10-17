@@ -1,0 +1,15 @@
+en:
+  common:
+    create:
+      success: "Created %{model} successfully"
+      failed: "Unable to create %{model}"
+    update:
+      success: "Updated %{model} successfully"
+      failed: "Unable to update %{model}"
+    destroy:
+      success: "Destroyed %{model} successfully"
+      failed: "Unable to delete %{model}"
+    duplicate:
+      success: "Duplidated %{model} successfully"
+      failed: "Unable to duplicate %{model}"
+    empty: "No resources available"

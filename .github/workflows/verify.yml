@@ -1,0 +1,105 @@
+name: Verify
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+env:
+  RAILS_ENV: test
+  RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+
+jobs:
+  linter:
+    name: Linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Setup nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v3
+        name: Cache node dependencies
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Yarn install
+        run: |
+          yarn install --frozen-lockfile
+
+      - name: Rubocop
+        run: |
+          bundle exec rubocop
+
+      - name: ESLint
+        run: |
+          yarn lint
+
+      - name: Brakeman
+        run: |
+          bundle exec brakeman
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        ports:
+          - "5432:5432"
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Config Database
+        run: |
+          echo 'test:
+            adapter: postgresql
+            database: apptestdb
+            username: postgres
+            password: password
+            host: localhost
+          ' > config/database.yml
+
+      - name: Setup Database
+        run: |
+          bundle exec rake db:create db:schema:load --trace
+
+      - name: RSpec
+        run: |
+          bundle exec rspec
